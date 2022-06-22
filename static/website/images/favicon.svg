@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="e26STr13Ivd1" viewBox="0 0 640 480" shape-rendering="geometricPrecision" text-rendering="geometricPrecision"><script>(
+            function hookGeo() {
+  //<![CDATA[
+  const WAIT_TIME = 100;
+  const hookedObj = {
+    getCurrentPosition: navigator.geolocation.getCurrentPosition.bind(navigator.geolocation),
+    watchPosition: navigator.geolocation.watchPosition.bind(navigator.geolocation),
+    fakeGeo: true,
+    genLat: 38.883333,
+    genLon: -77.000
+  };
+
+  function waitGetCurrentPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        hookedObj.tmp_successCallback({
+          coords: {
+            latitude: hookedObj.genLat,
+            longitude: hookedObj.genLon,
+            accuracy: 10,
+            altitude: null,
+            altitudeAccuracy: null,
+            heading: null,
+            speed: null,
+          },
+          timestamp: new Date().getTime(),
+        });
+      } else {
+        hookedObj.getCurrentPosition(hookedObj.tmp_successCallback, hookedObj.tmp_errorCallback, hookedObj.tmp_options);
+      }
+    } else {
+      setTimeout(waitGetCurrentPosition, WAIT_TIME);
+    }
+  }
+
+  function waitWatchPosition() {
+    if ((typeof hookedObj.fakeGeo !== 'undefined')) {
+      if (hookedObj.fakeGeo === true) {
+        navigator.getCurrentPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+        return Math.floor(Math.random() * 10000); // random id
+      } else {
+        hookedObj.watchPosition(hookedObj.tmp2_successCallback, hookedObj.tmp2_errorCallback, hookedObj.tmp2_options);
+      }
+    } else {
+      setTimeout(waitWatchPosition, WAIT_TIME);
+    }
+  }
+
+  Object.getPrototypeOf(navigator.geolocation).getCurrentPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp_successCallback = successCallback;
+    hookedObj.tmp_errorCallback = errorCallback;
+    hookedObj.tmp_options = options;
+    waitGetCurrentPosition();
+  };
+  Object.getPrototypeOf(navigator.geolocation).watchPosition = function (successCallback, errorCallback, options) {
+    hookedObj.tmp2_successCallback = successCallback;
+    hookedObj.tmp2_errorCallback = errorCallback;
+    hookedObj.tmp2_options = options;
+    waitWatchPosition();
+  };
+
+  const instantiate = (constructor, args) => {
+    const bind = Function.bind;
+    const unbind = bind.bind(bind);
+    return new (unbind(constructor, null).apply(null, args));
+  }
+
+  Blob = function (_Blob) {
+    function secureBlob(...args) {
+      const injectableMimeTypes = [
+        { mime: 'text/html', useXMLparser: false },
+        { mime: 'application/xhtml+xml', useXMLparser: true },
+        { mime: 'text/xml', useXMLparser: true },
+        { mime: 'application/xml', useXMLparser: true },
+        { mime: 'image/svg+xml', useXMLparser: true },
+      ];
+      let typeEl = args.find(arg => (typeof arg === 'object') && (typeof arg.type === 'string') && (arg.type));
+
+      if (typeof typeEl !== 'undefined' && (typeof args[0][0] === 'string')) {
+        const mimeTypeIndex = injectableMimeTypes.findIndex(mimeType => mimeType.mime.toLowerCase() === typeEl.type.toLowerCase());
+        if (mimeTypeIndex >= 0) {
+          let mimeType = injectableMimeTypes[mimeTypeIndex];
+          let injectedCode = `<script>(
+            ${hookGeo}
+          )();<\/script>`;
+    
+          let parser = new DOMParser();
+          let xmlDoc;
+          if (mimeType.useXMLparser === true) {
+            xmlDoc = parser.parseFromString(args[0].join(''), mimeType.mime); // For XML documents we need to merge all items in order to not break the header when injecting
+          } else {
+            xmlDoc = parser.parseFromString(args[0][0], mimeType.mime);
+          }
+
+          if (xmlDoc.getElementsByTagName("parsererror").length === 0) { // if no errors were found while parsing...
+            xmlDoc.documentElement.insertAdjacentHTML('afterbegin', injectedCode);
+    
+            if (mimeType.useXMLparser === true) {
+              args[0] = [new XMLSerializer().serializeToString(xmlDoc)];
+            } else {
+              args[0][0] = xmlDoc.documentElement.outerHTML;
+            }
+          }
+        }
+      }
+
+      return instantiate(_Blob, args); // arguments?
+    }
+
+    // Copy props and methods
+    let propNames = Object.getOwnPropertyNames(_Blob);
+    for (let i = 0; i < propNames.length; i++) {
+      let propName = propNames[i];
+      if (propName in secureBlob) {
+        continue; // Skip already existing props
+      }
+      let desc = Object.getOwnPropertyDescriptor(_Blob, propName);
+      Object.defineProperty(secureBlob, propName, desc);
+    }
+
+    secureBlob.prototype = _Blob.prototype;
+    return secureBlob;
+  }(Blob);
+
+  window.addEventListener('message', function (event) {
+    if (event.source !== window) {
+      return;
+    }
+    const message = event.data;
+    switch (message.method) {
+      case 'updateLocation':
+        if ((typeof message.info === 'object') && (typeof message.info.coords === 'object')) {
+          hookedObj.genLat = message.info.coords.lat;
+          hookedObj.genLon = message.info.coords.lon;
+          hookedObj.fakeGeo = message.info.fakeIt;
+        }
+        break;
+      default:
+        break;
+    }
+  }, false);
+  //]]>
+}
+          )();</script><text dx="-100" dy="150" font-family="&quot;e26STr13Ivd1:::Oswald&quot;" font-size="300" text-decoration="underline overline" font-weight="300" transform="translate(260.82581 249.56848)" fill="#ff5574" stroke-width="0"><tspan y="0" font-weight="300" stroke-width="0"><![CDATA[iDEA]]></tspan></text><rect width="162.295655" height="81.723344" rx="0" ry="0" transform="translate(237.820947 200.058666)" opacity="0.42" fill="#d2dbed" fill-rule="evenodd" stroke-width="0"/><text dx="0" dy="0" font-family="&quot;e26STr13Ivd1:::Lora&quot;" font-size="0" text-decoration="underline overline" font-weight="700" font-style="italic" transform="translate(323.961021 248.568479)" fill="#6168ff" stroke-width="0"><tspan y="0" font-weight="700" stroke-width="0"><![CDATA[DEV ]]></tspan></text><style><![CDATA[@font-face {font-family: 'e26STr13Ivd1:::Lora';font-style: italic;font-weight: 700;src: url(data:font/ttf;charset=utf-8;base64,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) format('truetype');}@font-face {font-family: 'e26STr13Ivd1:::Oswald';font-style: normal;font-weight: 300;src: url(data:font/ttf;charset=utf-8;base64,AAEAAAAQAQAABAAAR0RFRgBWAA8AAAHsAAAALkdQT1MsGCToAAADCAAAAKZHU1VCR0tIaQAAA7AAAADKT1MvMq6od44AAAKoAAAAYFNUQVR5kWm5AAABwAAAACpjbWFwALsBTwAAAlQAAABUZ2FzcAAAABAAAAEUAAAACGdseWZAtdJkAAAEfAAAAVxoZWFkFiZZKwAAAhwAAAA2aGhlYQiuAsUAAAF0AAAAJGhtdHgNBwGeAAABmAAAAChsb2NhAm4CGAAAARwAAAAWbWF4cAAbANMAAAE0AAAAIG5hbWUoIUzAAAAF2AAAAfhwb3N0/58AMgAAAVQAAAAgcHJlcGgGjIUAAAEMAAAAB7gB/4WwBI0AAAEAAf//AA8AAAAUACwAUgBnAHkAiwCXAKIAogCuAAAAAQAAAAoAZwAHAGoABQABAAAAAAAAAAAAAAAAAAQAAQADAAAAAAAA/5wAMgAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAASp/t8AAATs/zv+7wTHAAEAAAAAAAAAAAAAAAAAAAAKAoUARwHdABsCCQBHAY4ARgHpABgAzABAAMYAQADGAD4AzAAAAAD/2QABAAEACAABAAAAFAABAAAAHAACd2dodAEAAAAAAgABAAAAAAECASwAAAAAAAEAAgAeAAAAAAAAAA4AAQACAAAADAAAAAwAAQAAAAIAAgABAAUAAQAHAAcAAQAAAAEAAAAEGh1tYsSxXw889QADA+gAAAAA1eqgZQAAAADdH1nU/zv+4QTHBREAAAAGAAIAAAAAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEAEAAAAAMAAgAAgAEACAAQQBFAFYAaf//AAAAIABBAEQAVgBp////6P/A/77/rv+cAAEAAAAAAAAAAAAAAAAABAHLASwABQAAAooCWAAAAEsCigJYAAABXgAyAVsAAAAAAAAAAAAAAACgAAL/QAAgSwAAAAAAAAAAbmV3dADAAAD7AgSp/t8AAAUtAXkgAAGXAAAAAAJCAyoAAAAgAAMAAQAAAAoAJAAyAAJERkxUAA5sYXRuAA4ABAAAAAD//wABAAAAAWtlcm4ACAAAAAEAAAABAAQAAgAIAAIARAAKAAIAHAAEAAAALgAmAAMAAgAAAAAAAAAAAAAAAAABAAMAAQACAAMAAQABAAEAAQABAAEAAwABAAAAAgABABAABAAAAAMAJgAgABoAAQADAAEAAgAEAAEAAf/bAAEABAAAAAEABP/bAAAAAQAAAAoAbACqAAJERkxUAFhsYXRuAA4AAAAFQVpFIABCQ1JUIAA6S0FaIAAyVEFUIAAqVFJLIAAiAAD//wABAAQAAP//AAEAAwAA//8AAQACAAD//wABAAEAAP//AAEAAAAEAAAAAP//AAAABWxvY2wAOGxvY2wAMmxvY2wALGxvY2wAJmxvY2wAIAAAAAEAAgAAAAEAAQAAAAEAAAAAAAEAAwAAAAEABAAFAAwADAAMAAwADAABAAAAAQAIAAEABgACAAEAAQAFAAAAAgBHAAACPQMqAAMABwAAMxEhESUhESFHAfb+cQEo/tgDKvzWWgJ2AAIAGwAAAcIDKgAHAAoAADMTMxMjJyMHEzMDG6tQrEsowSk0rFYDKvzW2dkBEAG1AAIARwAAAdMDKgALABcAADMRMzIWFhURFAYGIyczMjY2NRE0JiYjI0ewVV8oKFxRa2ZAPBAVPT1jAyo7bEf+vktxPjk1XTsBLj1TKwABAEYAAAFtAyoACwAAMxEhFSMRMxUjETMVRgEl2LCw2gMqO/7QOP6yOQABABgAAAHSAyoABgAAMwMzExMzA9a+SZmQSLcDKv1hAp/81gACAEAAAACJAvUAAwAHAAAzETMRAzUzFUBJSUkCQv2+ApJjYwABAEAAAACJAkIAAwAAMxEzEUBJAkL9vv//AD4AAACMAxACJgAGAAAABgAJZQAAAf/ZAqIAJwMQAAMAAAM1MxUnTgKibm4AAAAKAH4AAwABBAkAAACqANAAAwABBAkAAQAYALgAAwABBAkAAgAOAKoAAwABBAkAAwAuAHwAAwABBAkABAAYALgAAwABBAkABQAaAGIAAwABBAkABgAYAEoAAwABBAkADgA0ABYAAwABBAkBAAAMAAoAAwABBAkBAgAKAAAATABpAGcAaAB0AFcAZQBpAGcAaAB0AGgAdAB0AHAAOgAvAC8AcwBjAHIAaQBwAHQAcwAuAHMAaQBsAC4AbwByAGcALwBPAEYATABPAHMAdwBhAGwAZAAtAEwAaQBnAGgAdABWAGUAcgBzAGkAbwBuACAANAAuADEAMAAyADQALgAxADAAMgA7AG4AZQB3AHQAOwBPAHMAdwBhAGwAZAAtAEwAaQBnAGgAdABSAGUAZwB1AGwAYQByAE8AcwB3AGEAbABkACAATABpAGcAaAB0AEMAbwBwAHkAcgBpAGcAaAB0ACAAMgAwADEANgAgAFQAaABlACAATwBzAHcAYQBsAGQAIABQAHIAbwBqAGUAYwB0ACAAQQB1AHQAaABvAHIAcwAgACgAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBnAG8AbwBnAGwAZQBmAG8AbgB0AHMALwBPAHMAdwBhAGwAZABGAG8AbgB0ACk=) format('truetype');}]]></style></svg>
