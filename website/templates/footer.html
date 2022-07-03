@@ -11,10 +11,9 @@
       <div class="row">
         <div class="col-lg-12">
           <h4>
-            Pellentesque aliquet mi eu tortor dictum, non imperdiet ante
-            viverra. Phasellus eget enim orci ut pellentes troc
+            Thank you for visiting our Website! Hope we will see you soon.
           </h4>
-          <div class="social-container">
+          {% comment %} <div class="social-container">
             <span class="fa-stack">
               <a href="#your-link">
                 <i class="fas fa-circle fa-stack-2x"></i>
@@ -45,7 +44,7 @@
                 <i class="fab fa-youtube fa-stack-1x"></i>
               </a>
             </span>
-          </div>
+          </div> {% endcomment %}
           <!-- end of social-container -->
         </div>
         <!-- end of col -->
@@ -55,7 +54,6 @@
     <!-- end of container -->
   </div>
   <!-- end of footer -->
-  <!-- end of footer -->
 
   <!-- Copyright -->
   <div class="copyright bg-gray">
@@ -63,15 +61,14 @@
       <div class="row">
         <div class="col-lg-6">
           <ul class="list-unstyled li-space-lg p-small">
-            <li><a href="article.html">Article Details</a></li>
-            <li><a href="terms.html">Terms & Conditions</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
+            <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
           </ul>
         </div>
         <!-- end of col -->
         <div class="col-lg-3">
           <p class="p-small statement">
-            Copyright © <a href="#">iDEA Development</a>
+            Copyright © <a href="{% url 'index' %}">iDEA Dev</a>
           </p>
         </div>
         <!-- end of col -->
@@ -80,7 +77,6 @@
     </div>
     <!-- end of container -->
   </div>
-  <!-- end of copyright -->
   <!-- end of copyright -->
 
   <!-- Back To Top Button -->
