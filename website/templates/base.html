@@ -54,9 +54,13 @@
 
   <body data-bs-spy="scroll" data-bs-target="#navbarExample">
 
+{% include 'navbar.html' %}
+
 {% block content %}
 
 {% endblock content %}
+
+{% include 'footer.html' %}
 
     <!-- Scripts -->
     <script src="{% static 'website/js/bootstrap.min.js' %} "></script>
