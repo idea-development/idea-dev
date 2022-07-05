@@ -34,53 +34,53 @@
         >
           <ul class="navbar-nav ms-auto navbar-nav-scroll">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#header"
+              <a class="nav-link active" aria-current="page" href="{% url 'index' %}#header"
                 >Home</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#services">Services</a>
+              <a class="nav-link" href="{% url 'index' %}#services">Services</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#projects">Projects</a>
+              <a class="nav-link" href="{% url 'index' %}#projects">Projects</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#pricing">Pricing</a>
+              <a class="nav-link" href="{% url 'index' %}#pricing">Pricing</a>
             </li>
             {% comment %} Dropdown menu if I want {% endcomment %}
 
-            {% comment %} <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
                 id="dropdown01"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
-                >Drop</a
+                >Blog</a
               >
               <ul class="dropdown-menu" aria-labelledby="dropdown01">
                 <li>
-                  <a class="dropdown-item" href="article.html"
-                    >Article Details</a
+                  <a class="dropdown-item" href="{% url 'articles' %}"
+                    >Articles</a
                   >
                 </li>
                 <li><div class="dropdown-divider"></div></li>
                 <li>
-                  <a class="dropdown-item" href="{% url 'terms' %}"
-                    >Terms Conditions</a
+                  <a class="dropdown-item" href="{% url 'add_article' %}"
+                    >Write An Article</a
                   >
-                </li>
-                <li><div class="dropdown-divider"></div></li>
+                </li> 
+                {% comment %} <li><div class="dropdown-divider"></div></li>
                 <li>
                   <a class="dropdown-item" href="privacy.html"
                     >Privacy Policy</a
                   >
-                </li>
+                </li> {% endcomment %}
               </ul>
-            </li> {% endcomment %}
+            </li> 
           </ul>
           <span class="nav-item">
-            <a class="btn-solid-sm" href="#contact">Get quote</a>
+            <a class="btn-solid-sm" href="{% url 'index' %}#contact">Get quote</a>
           </span>
         </div>
         <!-- end of navbar-collapse -->

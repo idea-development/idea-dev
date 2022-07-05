@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+ | {{post.title_tag}}
+{% endblock title %}
+
+{% block content %}
+
+<div class="container header">
+    <br>
+    <h1>{{post.title}}</h1>
+
+    <small>By: {{post.author.first_name}} {{post.author.last_name}}</small>
+    <hr>
+    {{post.body|safe}}
+
+    <h>
+    <a class='btn-solid-sm' href="{% url 'articles' %} ">Back</a> 
+</div>
+
+
+
+{% endblock content %}

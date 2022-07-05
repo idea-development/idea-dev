@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+ | Add Article
+{% endblock title %}
+
+{% block content %}
+
+<div class="container header">
+    
+    <h1>Add Article</h1>
+    
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class='btn-solid-sm'>Post</button>
+    </form>
+    
+
+</div>
+
+    
+{% endblock content %}
