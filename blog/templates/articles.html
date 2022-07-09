@@ -17,7 +17,7 @@
     <ul>
         {% for post in object_list %}
             <li>
-                <a  class="title_article" href="{% url 'article' post.pk %}">{{post.title}}</a>  by {{post.author.first_name}} {{post.author.last_name}}
+                <a  class="title_article" href="{% url 'article' post.pk %}">{{post.title}}</a>  by {{post.author.first_name}} {{post.author.last_name}} - <a href="{% url 'update_article' post.pk %}">Edit</a>            
             </li>
             <p>
                 {{post.body|safe}}

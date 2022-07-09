@@ -1,9 +1,7 @@
-from calendar import firstweekday
-from django.shortcuts import render
 # Class base view
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post
-from .forms import PostForm
+from .forms import PostForm, EditForm
 
 # Create your views here.
 
@@ -18,12 +16,10 @@ class ArticleView(DetailView):
 
 class AddArticleView(CreateView):
     model = Post
-    form_class = PostForm
     template_name = 'add_article.html'
-    # fields = '__all__'
-    # fields  = [
-    #     'title',
-    #     'title_tag',
-    #     'author',
-    #     'body',
-    # ]
+    form_class = PostForm
+
+class UpdateArticleView(UpdateView):
+    model = Post
+    template_name = 'update_article.html'
+    form_class = EditForm
