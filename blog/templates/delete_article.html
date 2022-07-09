@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
- | Edit | {{post.title}}
+ | Delete | {{post.title}}
 {% endblock title %}
 
 {% block content %}
@@ -14,7 +14,7 @@
           <div class="row">
             <div class="col-lg-12">
               <h2 class="h2-heading">
-                <span>Edit Article</span>
+                <span>Delete {{post.title}}</span>
               </h2>
             </div>
           </div>
@@ -22,9 +22,9 @@
                 <div class="form-group">
                     <form action="" method="post">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        
                         <div class="form-group">
-                            <button class='form-control-submit-button'>Update</button>
+                            <button class='form-control-submit-button'>Delete Article</button>
                         </div>
                     </form>
                 </div>
