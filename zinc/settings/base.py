@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv, find_dotenv
@@ -64,7 +63,7 @@ WSGI_APPLICATION = 'zinc.wsgi.application'
 
 load_dotenv(find_dotenv())
 
-DATABASES = {'default':dj_database_url.config(default='sqlite:///db.sqlite3', conn_max_age=600, ssl_require=False)}
+DATABASES = {'default': dj_database_url.config(default='sqlite3:///db.sqlite', conn_max_age=600)}
 
 
 # Password validation
@@ -98,18 +97,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-STATICFILES_DIRS = (
-    BASE_DIR / 'static',
-)
-
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

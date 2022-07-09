@@ -11,6 +11,15 @@ ALLOWED_HOSTS = [
     'idea-development.herokuapp.com', 'www.ideadev.co.uk', 'ideadev.co.uk'
 ]
 
+# Staticfiles
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+
 # Server Logging
 
 DEBUG_PROPAGATE_EXCEPTIONS = True
