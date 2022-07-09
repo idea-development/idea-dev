@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('website.urls')),
     path('blog/', include('blog.urls')),
+    path('authenticate/', include('django.contrib.auth.urls')),
+    path('authenticate/', include('blog_auth.urls')),
 ]
 
 if settings.DEBUG:

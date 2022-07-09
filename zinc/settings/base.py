@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'website',
     'blog',
+    'blog_auth',
 ]
 
 MIDDLEWARE = [
@@ -99,3 +100,5 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
