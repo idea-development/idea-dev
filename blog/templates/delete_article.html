@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <form action="" method="post">
                         {% csrf_token %}
-                        
+
                         <div class="form-group">
                             <button class='form-control-submit-button'>Delete Article</button>
                         </div>
@@ -31,6 +31,8 @@
             </div>   
         </div>    
     </div>
+    <hr>
+    <a class='btn-solid-sm' href="{% url 'articles' %} ">Back</a> 
 </div>
 
     

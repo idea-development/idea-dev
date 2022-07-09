@@ -12,7 +12,7 @@
     <br>
     <h1>{{post.title}}</h1>
 
-    <small>By: {{post.author.first_name}} {{post.author.last_name}}</small>
+    <small>By: {{post.author.first_name}} {{post.author.last_name}}</small>{{post.publish_date}}
     <a href="{% url 'update_article' post.pk %}">Edit</a>            
     <a href="{% url 'delete_article' post.pk %}">Delete</a>            
     <hr>
