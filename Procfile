@@ -1,1 +1,1 @@
-web: gunicorn zinc.wsgi && python manage.py migrate
+web: gunicorn zinc.wsgi && python manage.py makemigrations && python manage.py migrate
